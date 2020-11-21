@@ -12,7 +12,7 @@
 - Так же необходимо установить Maven, скачать можно [тут](http://maven.apache.org/download.cgi#files)
 
 ```sh
-$ cd mmod
+$ cd uniqip
 $ mvn package
 ```
 Появится папка **target**, a в ней файл **uniqip.jar** 
