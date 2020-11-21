@@ -23,7 +23,7 @@ $ mvn package
 $ java -jar uniq.jar ip_addresses
 ```
 
-## Скорость работ
+## Скорость работы
 [файл](https://ecwid-vgv-storage.s3.eu-central-1.amazonaws.com/ip_addresses.zip) размером в ~110 гб
 на железе i3-4170 3.7GHz 16gb дал такие результаты:
 ```sh
