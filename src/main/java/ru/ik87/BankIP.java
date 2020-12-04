@@ -4,46 +4,43 @@ import java.util.Arrays;
 
 /**
  * @author Kosolapov Ilya (d_dexter@mail.ru)
- * @version 1.1
- * @since 21.11.2020
+ * @version 2.0
+ * @since 04.12.2020
  */
 public class BankIP {
-    long count = 0;
-    final boolean[][][] ip = new boolean[2][4][256];
+    private static final int SIZE = 67108864;
+    private long count = 0;
+    long[] ips = new long[SIZE];
+
+    public BankIP() {
+    }
 
     public void addIP(String strIP) {
-        int[] arrIP = parseIp(strIP);
-
-        if (!checkIp(arrIP, 0)) {
-            addIP(arrIP, 0);
+        long ip = ipToLong(strIP);
+        if (checkIp(ip)) {
+            addIp(ip);
             count++;
-        } else if (!checkIp(arrIP, 1)) {
-            addIP(arrIP, 1);
-            count--;
         }
 
     }
 
-    //if 1 & 1 & 1 & 1 = then exist
-    private boolean checkIp(int[] arrIP, int cell) {
-        return ip[cell][0][arrIP[0]]
-                & ip[cell][1][arrIP[1]]
-                & ip[cell][2][arrIP[2]]
-                & ip[cell][3][arrIP[3]];
-    }
-
-    private int[] parseIp(String strIP) {
-        return Arrays.stream(strIP.split("\\."))
-                .mapToInt(Integer::parseInt)
+    private long ipToLong(String strIp) {
+        long[] ip = Arrays.stream(strIp.split("\\."))
+                .mapToLong(Long::parseLong)
                 .toArray();
-
+        ip[0] *= 16777216;
+        ip[1] *= 65536;
+        ip[2] *= 256;
+        return ip[0] + ip[1] + ip[2] + ip[3];
     }
 
-    private void addIP(int[] arrIP, int cell) {
-        ip[cell][0][arrIP[0]] = true;
-        ip[cell][1][arrIP[1]] = true;
-        ip[cell][2][arrIP[2]] = true;
-        ip[cell][3][arrIP[3]] = true;
+    private boolean checkIp(long ip) {
+       // System.out.printf("%s / %s y:%s x:%s\n",ip, 64,  ip / 64, 1L << (ip % 64));
+        return (ips[(int) (ip / 64)] & (1L << (ip % 64))) == 0;
+    }
+
+    private void addIp(long ip) {
+        ips[(int) (ip / 64)] |= 1L << (ip % 64);
     }
 
     @Override
